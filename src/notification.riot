@@ -1,0 +1,120 @@
+<tiny-notification>
+    <div class="toast-wrapper toast-wrapper--right" if={ state.items.length > 0 }>
+        <div
+            id={ state.prefixId + item.id } class={ item.classes.join(' ') }
+            each={ item in state.items }
+            onclick={ (event) => { this.handleClick(event, item) } }>
+
+            <div class="toast__body">
+                { item.message }
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        import { v4 as uuidv4 } from 'uuid'
+        import notificationStore from './../stores/notification'
+
+        /**
+         *  notification
+         *
+         *
+         *  @author Björn Hase
+         *  @license http://opensource.org/licenses/MIT The MIT License
+         *  @link https://gitea.node001.net/tiny-components/notification
+         *
+         */
+
+        export default {
+
+            state: {
+                items: [],
+                timeout: 3000,
+                prefixId: 'tiny-notification-'
+            },
+
+            /**
+             *  on mounted
+             *
+             *  @param  {object} props
+             *  @param  {object} state
+             *
+             */
+            onMounted(props, state) {
+
+                // change timeout by props
+                if (props.timeout) {
+                    state.timeout = props.timeout
+                }
+
+                // adding service for notifications and listen to "update"
+                notificationStore.on('append', (item) => {
+
+                    // adding attributes
+                    item.id = 'toast-' + uuidv4()
+                    item.classes = [
+                        'toast',
+                        'toast--' + item.type
+                    ]
+
+                    // create timeout to remove notification
+                    item.timeout = setTimeout(() => {
+                        this.removeItem(item)
+                    }, this.state.timeout)
+
+                    this.state.items.push(item)
+                    this.update()
+
+                    // add animation
+                    requestAnimationFrame(() => {
+                        this.$('#' + state.prefixId + item.id).classList.add('toast--animation')
+                    })
+                })
+            },
+
+            /**
+             *  remove single item
+             *
+             *
+             *  @param  {object} item
+             *
+             */
+            removeItem(item) {
+
+                // adding event if animationend remove html element
+                this.$('#' + this.state.prefixId + item.id).addEventListener('transitionend', () => {
+
+                    // find item in state and remove it
+                    for (let i = 0; i < this.state.items.length; i++) {
+                        if (this.state.items[i].id === item.id) {
+                            clearTimeout(this.state.items[i].timeout)
+                            this.state.items.splice(i, 1)
+
+                            break;
+                        }
+                    }
+
+                    this.update()
+                })
+
+                // add animation
+                requestAnimationFrame(() => {
+                    this.$('#' + this.state.prefixId + item.id).classList.remove('toast--animation')
+                })
+            },
+
+            /**
+             *  remove item by clicked on it
+             *
+             *  @param  {object} event
+             *  @param  {object} item
+             *
+             */
+            handleClick(event, item) {
+                this.removeItem(item)
+            }
+        }
+
+    </script>
+</tiny-notification>

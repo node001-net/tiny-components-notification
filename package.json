@@ -1,0 +1,23 @@
+{
+  "name": "@tiny-components/notification",
+  "version": "0.1.0",
+  "description": "handle notifications and show toast",
+  "repository": {
+    "type": "git",
+    "url": "git@gitea.node001.net:tiny-components/notification.git"
+  },
+  "author": "Björn Hase",
+  "license": "MIT",
+  "dependencies": {
+    "@riotjs/observable": "^4.1.1",
+    "@tiny-components/plain-ui": "^0.6.0",
+    "riot": "^6.1.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@riotjs/webpack-loader": "^6.0.0",
+    "laravel-mix": "^6.0.43",
+    "laravel-mix-purgecss": "^6.0.0",
+    "svg-spritemap-webpack-plugin": "^4.4.0"
+  }
+}
