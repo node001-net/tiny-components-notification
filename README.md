@@ -27,8 +27,8 @@ notificationStore.danger('Error! Something is wrong')
 
 ## Options
 
-| attribute | values |
-|---|---|
-| wrapper-class |   |
-| timeout  |   |
+| attribute | description | values |
+|---|---|---|
+| wrapper-class |  Position for notification to show | toast-wrapper--right, toast-wrapper--top |
+| timeout  | How long notifications show up | in ms |
 
