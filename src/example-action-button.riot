@@ -1,0 +1,42 @@
+<example-action-button>
+    <div class="m-top-4 m-bottom-4">
+        <button class="button button--danger m-right-md-3" onclick={ (event) => { handleClickDanger(event) } }>
+            Show Error!
+        </button>
+        <button class="button button--success m-left-md-3" onclick={ (event) => { handleClickSuccess(event) } }>
+            Show Success!
+        </button>
+    </div>
+
+    <script>
+
+        import notificationStore from './notificationStore.js'
+
+        export default {
+
+            /**
+             *
+             *
+             *  @param  {Object} event
+             *  @param  {Object} item
+             *
+             */
+            handleClickDanger(event) {
+                notificationStore.danger('Error!')
+            },
+
+            /**
+             *
+             *
+             *  @param  {Object} event
+             *  @param  {Object} item
+             *
+             */
+            handleClickSuccess(event) {
+                notificationStore.success('Success!')
+            }
+
+        }
+
+    </script>
+</example-action-button>
